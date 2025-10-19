@@ -11,6 +11,10 @@ app.use(cors());
 const PORT = process.env.PORT || 3000;
 
 // GET /me endpoint
+app.get("/", (req, res) => {
+  res.send("Welcome! Visit /me to see your profile endpoint 😺");
+});
+
 app.get("/me", async (req, res) => {
   try {
     // Fetch random cat fact
@@ -41,7 +45,7 @@ app.get("/me", async (req, res) => {
     const fallback = {
       status: "success",
       user: {
-        email: "dammydave1610@gmail.comx",
+        email: "dammydave1610@gmail.com",
         name: "Oluwadamilola Oyeyipo",
         stack: "Node.js/Express",
       },
