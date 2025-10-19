@@ -8,7 +8,9 @@ const cors = require("cors");
 app.use(cors());
 
 // Environment variables (optional for production use)
-const PORT = process.env.PORT || 3000;
+// replaced to ensure dynamic port and optional host binding
+const PORT = parseInt(process.env.PORT, 10) || 3000;
+const HOST = process.env.HOST || "0.0.0.0";
 
 // Create a small axios instance with timeout
 const api = axios.create({
@@ -66,5 +68,9 @@ app.get("/me", async (req, res) => {
   }
 });
 
-// Start server
-app.listen(PORT, () => console.log(`Server running on port http://localhost:${PORT}/me `));
+// Start server (use server.address() to show actual binding)
+const server = app.listen(PORT, HOST, () => {
+  const addr = server.address() || { address: HOST, port: PORT };
+  const displayHost = addr.address === "0.0.0.0" || addr.address === "::" ? "localhost" : addr.address;
+  console.log(`Server running at http://${displayHost}:${addr.port}/me`);
+});
