@@ -7,10 +7,8 @@ const app = express();
 const cors = require("cors");
 app.use(cors());
 
-// Environment variables (optional for production use)
-// replaced to ensure dynamic port and optional host binding
-const PORT = parseInt(process.env.PORT, 10) || 3000;
-const HOST = process.env.HOST || "0.0.0.0";
+// Environment variables (ensure Railway-provided port is used dynamically)
+const PORT = process.env.PORT ? Number(process.env.PORT) : 3000;
 
 // Create a small axios instance with timeout
 const api = axios.create({
@@ -68,12 +66,14 @@ app.get("/me", async (req, res) => {
   }
 });
 
-// Start server (use real env values and support graceful shutdown)
-const server = app.listen(PORT, HOST, () => {
-  console.log(`Server running on ${HOST}:${PORT} (env PORT=${process.env.PORT || 'unset'})`);
+// Start server (use actual server.address() so log reflects Railway runtime port)
+const server = app.listen(PORT, () => {
+  const addr = server.address() || { address: "0.0.0.0", port: PORT };
+  const hostDisplay = addr.address === "0.0.0.0" || addr.address === "::" ? "0.0.0.0" : addr.address;
+  console.log(`Server running on ${hostDisplay}:${addr.port} (env PORT=${process.env.PORT || 'unset'})`);
 });
 
-// Graceful shutdown so Railway can terminate the process cleanly
+// Graceful shutdown handlers remain unchanged
 process.on("SIGTERM", () => {
   console.log("SIGTERM received, closing server...");
   server.close(() => {
