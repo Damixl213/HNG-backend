@@ -68,9 +68,24 @@ app.get("/me", async (req, res) => {
   }
 });
 
-// Start server (use server.address() to show actual binding)
+// Start server (use real env values and support graceful shutdown)
 const server = app.listen(PORT, HOST, () => {
-  const addr = server.address() || { address: HOST, port: PORT };
-  const displayHost = addr.address === "0.0.0.0" || addr.address === "::" ? "localhost" : addr.address;
-  console.log(`Server running at http://${displayHost}:${addr.port}/me`);
+  console.log(`Server running on ${HOST}:${PORT} (env PORT=${process.env.PORT || 'unset'})`);
+});
+
+// Graceful shutdown so Railway can terminate the process cleanly
+process.on("SIGTERM", () => {
+  console.log("SIGTERM received, closing server...");
+  server.close(() => {
+    console.log("Server closed");
+    process.exit(0);
+  });
+});
+
+process.on("SIGINT", () => {
+  console.log("SIGINT received, closing server...");
+  server.close(() => {
+    console.log("Server closed");
+    process.exit(0);
+  });
 });
