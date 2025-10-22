@@ -1,10 +1,10 @@
-**</h1>🧩 Backend Wizards — Stage 0 Task </h1>
+**</h1>Backend — Stage 0 Task</h1>
 🚀 Overview**
 
 This project was created as part of the HNG Internship (Stage 0 – Backend Track).
 It’s a simple yet dynamic RESTful API that provides developer profile details along with a random cat fact fetched from an external API.
 
-<h2>**⚙️ Tech Stack** </h2>
+<h2>**⚙️ Tech Stack**</h2>
 
 🟢 Node.js — JavaScript runtime environment
 
@@ -93,10 +93,10 @@ Deploy Node.js apps successfully on Railway
 👨‍💻 Author
 
 Name: Oluwadamilola Oyeyipo
-Email: oluwadamilola@example.com
+Email: dammydave1610@gmail.com
 
 Stack: Node.js | Express.js | JavaScript
-GitHub: @your-username
+GitHub: Damixl213
 
 📜 License
 
